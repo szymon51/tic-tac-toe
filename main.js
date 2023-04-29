@@ -1,21 +1,30 @@
 const Gameboard = (() => {
-  this.gameBoard = ['x', 'o', 'x', 'o', 'x', 'o', 'x', 'o', 'x'];
+  this.gameBoard = [null, null, null, null, null, null, null, null, null];
   this.renderBoard = () => {
     const fields = document.querySelectorAll('.field');
     fields.forEach((field, index) => {
       field.textContent = gameBoard[index];
     });
   };
-  return { gameBoard, renderBoard };
+  this.addNewMark = (newMark, indexOfMark) => {
+    if (gameBoard[indexOfMark] === null) {
+      gameBoard[indexOfMark] = newMark;
+    }
+    Gameboard.renderBoard();
+  };
+  return { gameBoard, renderBoard, addNewMark };
 })();
 
-const Player = (name) => {
-  this.name = name;
-  return { name };
+const Player = () => {
+  this.addNewMark = (mark, indexOfMark) => {
+    Gameboard.addNewMark(mark, indexOfMark);
+  };
+  return { addNewMark };
 };
 
 const Game = (() => {
-  const playerOne = Player('jeff');
-  const playerTwo = Player('mark');
+  const playerOne = Player();
+  const playerTwo = Player();
   Gameboard.renderBoard();
+  playerOne.addNewMark('x', 3);
 })();
