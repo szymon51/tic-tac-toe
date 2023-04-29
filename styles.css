@@ -2,14 +2,14 @@ body {
   display: flex;
   justify-content: center;
 }
-.container div {
+.game-board .field {
   background-color: white;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.container {
+.game-board {
   width: 400px;
   height: 400px;
   display: grid;
