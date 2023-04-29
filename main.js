@@ -10,21 +10,37 @@ const Gameboard = (() => {
     if (gameBoard[indexOfMark] === null) {
       gameBoard[indexOfMark] = newMark;
     }
-    Gameboard.renderBoard();
-  };
-  return { gameBoard, renderBoard, addNewMark };
-})();
-
-const Player = () => {
-  this.addNewMark = (mark, indexOfMark) => {
-    Gameboard.addNewMark(mark, indexOfMark);
+    renderBoard();
   };
   return { addNewMark };
+})();
+
+const Player = (mark) => {
+  this.mark = mark;
+  return { mark };
 };
 
 const Game = (() => {
-  const playerOne = Player();
-  const playerTwo = Player();
-  Gameboard.renderBoard();
-  playerOne.addNewMark('x', 3);
+  const playerOne = Player('o');
+  const playerTwo = Player('x');
+  let round = 1;
+
+  const addFieldEventListeners = (() => {
+    const fields = document.querySelectorAll('.field');
+    fields.forEach((element) => {
+      const field = element;
+      element.addEventListener(
+        'click',
+        () => {
+          if (round % 2 === 1) {
+            Gameboard.addNewMark(playerOne.mark, field.id);
+          } else {
+            Gameboard.addNewMark(playerTwo.mark, field.id);
+          }
+          round += 1;
+        },
+        { once: true }
+      );
+    });
+  })();
 })();
