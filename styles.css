@@ -3,11 +3,10 @@ body {
   justify-content: center;
 }
 .container div {
-  margin: 5px;
-  text-align: center;
-  padding: 5px;
-  border: 1px solid rgb(255, 205, 145);
   background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
@@ -15,5 +14,7 @@ body {
   height: 400px;
   display: grid;
   grid: repeat(3, 1fr) / repeat(3, 1fr);
-  background-color: bisque;
+  background-color: rgb(255, 205, 145);
+  border: 5px solid rgb(255, 205, 145);
+  gap: 5px;
 }
