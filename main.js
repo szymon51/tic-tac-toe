@@ -1,35 +1,45 @@
-let round = 1;
-
 const Gameboard = (() => {
   const gameBoard = [null, null, null, null, null, null, null, null, null];
+  const getFieldValue = (indexOfField) => {
+    return gameBoard[indexOfField];
+  };
+  const setFieldValue = (indexOfField, value) => {
+    gameBoard[indexOfField] = value;
+  };
+  return { getFieldValue, setFieldValue };
+})();
+
+const displayController = (() => {
   const renderBoard = () => {
     const fields = document.querySelectorAll('.field');
     fields.forEach((field, index) => {
-      field.textContent = gameBoard[index];
+      field.textContent = Gameboard.getFieldValue(index);
     });
   };
-  addNewMark = (indexOfMark) => {
+  return { renderBoard };
+})();
+
+const gameController = (() => {
+  let round = 1;
+  addNewMark = (indexOfField) => {
     let newMark;
     if (round % 2 === 0) newMark = 'x';
     else if (round % 2 === 1) newMark = 'o';
 
-    if (gameBoard[indexOfMark] === null) {
-      gameBoard[indexOfMark] = newMark;
+    if (Gameboard.getFieldValue(indexOfField) === null) {
+      Gameboard.setFieldValue(indexOfField, newMark);
     }
-    renderBoard();
+    displayController.renderBoard();
     round += 1;
   };
   return { addNewMark };
 })();
 
-const Player = (mark) => {
-  return { mark };
+const Player = () => {
+  return {};
 };
 
-const Game = (() => {
-  const playerOne = Player('o');
-  const playerTwo = Player('x');
-
+const game = (() => {
   const addFieldEventListeners = (() => {
     const fields = document.querySelectorAll('.field');
     fields.forEach((element) => {
@@ -37,7 +47,7 @@ const Game = (() => {
       element.addEventListener(
         'click',
         () => {
-          Gameboard.addNewMark(field.id);
+          gameController.addNewMark(field.id);
         },
         { once: true }
       );
