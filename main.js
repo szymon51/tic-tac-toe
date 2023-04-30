@@ -9,27 +9,28 @@ const Gameboard = (() => {
   return { getFieldValue, setFieldValue };
 })();
 
-const displayController = (() => {
-  const addFieldEventListeners = (() => {
-    const fields = document.querySelectorAll('.field');
-    fields.forEach((element) => {
-      const field = element;
-      element.addEventListener(
-        'click',
-        () => {
-          gameController.addNewMark(field.id);
-        },
-        { once: true }
-      );
-    });
-  })();
-  const renderBoard = () => {
+const clickHandlerBoard = (() => {
+  const fields = document.querySelectorAll('.field');
+  fields.forEach((element) => {
+    const field = element;
+    element.addEventListener(
+      'click',
+      () => {
+        gameController.addNewMark(field.id);
+      },
+      { once: true }
+    );
+  });
+})();
+
+const screenController = (() => {
+  const updateScreen = () => {
     const fields = document.querySelectorAll('.field');
     fields.forEach((field, index) => {
       field.textContent = Gameboard.getFieldValue(index);
     });
   };
-  return { renderBoard };
+  return { updateScreen };
 })();
 
 const gameController = (() => {
@@ -42,7 +43,7 @@ const gameController = (() => {
     if (Gameboard.getFieldValue(indexOfField) === null) {
       Gameboard.setFieldValue(indexOfField, newMark);
     }
-    displayController.renderBoard();
+    screenController.updateScreen();
     round += 1;
   };
   return { addNewMark };
