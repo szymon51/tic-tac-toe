@@ -3,10 +3,10 @@ const Gameboard = (() => {
   const getFieldValue = (indexOfField) => {
     return gameBoard[indexOfField];
   };
-  const setFieldValue = (indexOfField, value) => {
+  const addNewMark = (indexOfField, value) => {
     gameBoard[indexOfField] = value;
   };
-  return { getFieldValue, setFieldValue };
+  return { getFieldValue, addNewMark };
 })();
 
 const clickHandlerBoard = (() => {
@@ -43,16 +43,70 @@ const gameController = (() => {
   let round = 1;
 
   const playRound = (indexOfField) => {
-    if (round % 2 === 0) addNewMark(indexOfField, playerTwo.mark);
-    else if (round % 2 === 1) addNewMark(indexOfField, playerOne.mark);
+    const activePlayer = round % 2 ? playerOne : playerTwo;
     round += 1;
+    Gameboard.addNewMark(indexOfField, activePlayer.mark);
+    checkIfGameOver(activePlayer);
+    screenController.updateScreen();
   };
 
-  const addNewMark = (indexOfField, newMark) => {
-    if (Gameboard.getFieldValue(indexOfField) === null) {
-      Gameboard.setFieldValue(indexOfField, newMark);
+  const gameOver = (activePlayer) => {
+    if (activePlayer === undefined) console.log('It is a tie!');
+    else console.log(`'${activePlayer.mark}' won the game!`);
+  };
+
+  const checkIfGameOver = (activePlayer) => {
+    if (round >= 10) {
+      gameOver();
+    } else if (
+      Gameboard.getFieldValue(0) === activePlayer.mark &&
+      Gameboard.getFieldValue(1) === activePlayer.mark &&
+      Gameboard.getFieldValue(2) === activePlayer.mark
+    ) {
+      gameOver(activePlayer);
+    } else if (
+      Gameboard.getFieldValue(3) === activePlayer.mark &&
+      Gameboard.getFieldValue(4) === activePlayer.mark &&
+      Gameboard.getFieldValue(5) === activePlayer.mark
+    ) {
+      gameOver(activePlayer);
+    } else if (
+      Gameboard.getFieldValue(6) === activePlayer.mark &&
+      Gameboard.getFieldValue(7) === activePlayer.mark &&
+      Gameboard.getFieldValue(8) === activePlayer.mark
+    ) {
+      gameOver(activePlayer);
+    } else if (
+      Gameboard.getFieldValue(0) === activePlayer.mark &&
+      Gameboard.getFieldValue(3) === activePlayer.mark &&
+      Gameboard.getFieldValue(6) === activePlayer.mark
+    ) {
+      gameOver(activePlayer);
+    } else if (
+      Gameboard.getFieldValue(1) === activePlayer.mark &&
+      Gameboard.getFieldValue(4) === activePlayer.mark &&
+      Gameboard.getFieldValue(7) === activePlayer.mark
+    ) {
+      gameOver(activePlayer);
+    } else if (
+      Gameboard.getFieldValue(2) === activePlayer.mark &&
+      Gameboard.getFieldValue(5) === activePlayer.mark &&
+      Gameboard.getFieldValue(8) === activePlayer.mark
+    ) {
+      gameOver(activePlayer);
+    } else if (
+      Gameboard.getFieldValue(0) === activePlayer.mark &&
+      Gameboard.getFieldValue(4) === activePlayer.mark &&
+      Gameboard.getFieldValue(8) === activePlayer.mark
+    ) {
+      gameOver(activePlayer);
+    } else if (
+      Gameboard.getFieldValue(2) === activePlayer.mark &&
+      Gameboard.getFieldValue(4) === activePlayer.mark &&
+      Gameboard.getFieldValue(6) === activePlayer.mark
+    ) {
+      gameOver(activePlayer);
     }
-    screenController.updateScreen();
   };
   return { playRound };
 })();
