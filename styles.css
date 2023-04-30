@@ -30,3 +30,13 @@ body {
   color: rgb(255, 205, 145);
   font-weight: 600;
 }
+
+#new-game {
+  margin-top: 10px;
+  background-color: rgb(255, 205, 145);
+  color: white;
+  border-style: none;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: x-large;
+}

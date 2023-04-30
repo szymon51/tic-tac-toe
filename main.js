@@ -43,7 +43,12 @@ const screenController = (() => {
     const resultDiv = document.querySelector('#results');
     resultDiv.textContent = message;
   };
-  return { updateScreen, displayResults };
+  const clearScreen = () => {
+    Gameboard.clearGameboard();
+    screenController.updateScreen();
+    screenController.displayResults('');
+  };
+  return { updateScreen, displayResults, clearScreen };
 })();
 
 const Player = (mark) => {
@@ -58,8 +63,7 @@ const gameController = (() => {
   const newGame = () => {
     clickHandler.addFieldEventListeners();
     round = 1;
-    Gameboard.clearGameboard();
-    screenController.updateScreen();
+    screenController.clearScreen();
   };
 
   const playRound = (indexOfField) => {
