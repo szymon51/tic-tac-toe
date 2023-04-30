@@ -4,7 +4,7 @@ body {
   align-items: center;
   font-family: sans-serif;
   flex-direction: column;
-  gap: 5px;
+  gap: 20px;
 }
 .game-board .field {
   font-size: 100px;
@@ -23,4 +23,10 @@ body {
   background-color: rgb(255, 205, 145);
   border: 5px solid rgb(255, 205, 145);
   gap: 5px;
+}
+
+#results {
+  font-size: 50px;
+  color: rgb(255, 205, 145);
+  font-weight: 600;
 }

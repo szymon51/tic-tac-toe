@@ -13,7 +13,7 @@ const Gameboard = (() => {
 })();
 
 const clickHandler = (() => {
-  const fieldEventListeners = () => {
+  const addFieldEventListeners = () => {
     const fields = document.querySelectorAll('.field');
     fields.forEach((element) => {
       const field = element;
@@ -26,9 +26,10 @@ const clickHandler = (() => {
       );
     });
   };
+  addFieldEventListeners();
   const newGameBtn = document.querySelector('#new-game');
   newGameBtn.addEventListener('click', () => gameController.newGame());
-  return { fieldEventListeners };
+  return { addFieldEventListeners };
 })();
 
 const screenController = (() => {
@@ -38,7 +39,11 @@ const screenController = (() => {
       field.textContent = Gameboard.getFieldValue(index);
     });
   };
-  return { updateScreen };
+  const displayResults = (message) => {
+    const resultDiv = document.querySelector('#results');
+    resultDiv.textContent = message;
+  };
+  return { updateScreen, displayResults };
 })();
 
 const Player = (mark) => {
@@ -51,7 +56,7 @@ const gameController = (() => {
   let round = 1;
 
   const newGame = () => {
-    clickHandler.fieldEventListeners();
+    clickHandler.addFieldEventListeners();
     round = 1;
     Gameboard.clearGameboard();
     screenController.updateScreen();
@@ -65,62 +70,70 @@ const gameController = (() => {
     screenController.updateScreen();
   };
 
-  const gameOver = (activePlayer) => {
-    if (activePlayer === undefined) console.log('It is a tie!');
-    else console.log(`'${activePlayer.mark}' won the game!`);
+  const gameOver = (activePlayerMark) => {
+    let message;
+    if (activePlayerMark === undefined) message = 'It is a tie!';
+    else {
+      if (activePlayerMark === 'o') {
+        message = 'First player won!';
+      } else {
+        message = 'Second player won!';
+      }
+    }
+    screenController.displayResults(message);
   };
 
   const checkIfGameOver = (activePlayer) => {
-    if (round >= 10) {
-      gameOver();
-    } else if (
+    if (
       Gameboard.getFieldValue(0) === activePlayer.mark &&
       Gameboard.getFieldValue(1) === activePlayer.mark &&
       Gameboard.getFieldValue(2) === activePlayer.mark
     ) {
-      gameOver(activePlayer);
+      gameOver(activePlayer.mark);
     } else if (
       Gameboard.getFieldValue(3) === activePlayer.mark &&
       Gameboard.getFieldValue(4) === activePlayer.mark &&
       Gameboard.getFieldValue(5) === activePlayer.mark
     ) {
-      gameOver(activePlayer);
+      gameOver(activePlayer.mark);
     } else if (
       Gameboard.getFieldValue(6) === activePlayer.mark &&
       Gameboard.getFieldValue(7) === activePlayer.mark &&
       Gameboard.getFieldValue(8) === activePlayer.mark
     ) {
-      gameOver(activePlayer);
+      gameOver(activePlayer.mark);
     } else if (
       Gameboard.getFieldValue(0) === activePlayer.mark &&
       Gameboard.getFieldValue(3) === activePlayer.mark &&
       Gameboard.getFieldValue(6) === activePlayer.mark
     ) {
-      gameOver(activePlayer);
+      gameOver(activePlayer.mark);
     } else if (
       Gameboard.getFieldValue(1) === activePlayer.mark &&
       Gameboard.getFieldValue(4) === activePlayer.mark &&
       Gameboard.getFieldValue(7) === activePlayer.mark
     ) {
-      gameOver(activePlayer);
+      gameOver(activePlayer.mark);
     } else if (
       Gameboard.getFieldValue(2) === activePlayer.mark &&
       Gameboard.getFieldValue(5) === activePlayer.mark &&
       Gameboard.getFieldValue(8) === activePlayer.mark
     ) {
-      gameOver(activePlayer);
+      gameOver(activePlayer.mark);
     } else if (
       Gameboard.getFieldValue(0) === activePlayer.mark &&
       Gameboard.getFieldValue(4) === activePlayer.mark &&
       Gameboard.getFieldValue(8) === activePlayer.mark
     ) {
-      gameOver(activePlayer);
+      gameOver(activePlayer.mark);
     } else if (
       Gameboard.getFieldValue(2) === activePlayer.mark &&
       Gameboard.getFieldValue(4) === activePlayer.mark &&
       Gameboard.getFieldValue(6) === activePlayer.mark
     ) {
-      gameOver(activePlayer);
+      gameOver(activePlayer.mark);
+    } else if (round >= 10) {
+      gameOver();
     }
   };
   return { playRound, newGame };
