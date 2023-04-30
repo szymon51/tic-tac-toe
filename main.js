@@ -1,3 +1,5 @@
+let round = 1;
+
 const Gameboard = (() => {
   const gameBoard = [null, null, null, null, null, null, null, null, null];
   const renderBoard = () => {
@@ -6,11 +8,16 @@ const Gameboard = (() => {
       field.textContent = gameBoard[index];
     });
   };
-  addNewMark = (newMark, indexOfMark) => {
+  addNewMark = (indexOfMark) => {
+    let newMark;
+    if (round % 2 === 0) newMark = 'x';
+    else if (round % 2 === 1) newMark = 'o';
+
     if (gameBoard[indexOfMark] === null) {
       gameBoard[indexOfMark] = newMark;
     }
     renderBoard();
+    round += 1;
   };
   return { addNewMark };
 })();
@@ -22,7 +29,6 @@ const Player = (mark) => {
 const Game = (() => {
   const playerOne = Player('o');
   const playerTwo = Player('x');
-  let round = 1;
 
   const addFieldEventListeners = (() => {
     const fields = document.querySelectorAll('.field');
@@ -31,12 +37,7 @@ const Game = (() => {
       element.addEventListener(
         'click',
         () => {
-          if (round % 2 === 1) {
-            Gameboard.addNewMark(playerOne.mark, field.id);
-          } else {
-            Gameboard.addNewMark(playerTwo.mark, field.id);
-          }
-          round += 1;
+          Gameboard.addNewMark(field.id);
         },
         { once: true }
       );
