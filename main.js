@@ -1,12 +1,12 @@
 const Gameboard = (() => {
-  this.gameBoard = [null, null, null, null, null, null, null, null, null];
-  this.renderBoard = () => {
+  const gameBoard = [null, null, null, null, null, null, null, null, null];
+  const renderBoard = () => {
     const fields = document.querySelectorAll('.field');
     fields.forEach((field, index) => {
       field.textContent = gameBoard[index];
     });
   };
-  this.addNewMark = (newMark, indexOfMark) => {
+  addNewMark = (newMark, indexOfMark) => {
     if (gameBoard[indexOfMark] === null) {
       gameBoard[indexOfMark] = newMark;
     }
@@ -16,7 +16,6 @@ const Gameboard = (() => {
 })();
 
 const Player = (mark) => {
-  this.mark = mark;
   return { mark };
 };
 
