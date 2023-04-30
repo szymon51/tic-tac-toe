@@ -16,7 +16,7 @@ const clickHandlerBoard = (() => {
     element.addEventListener(
       'click',
       () => {
-        gameController.addNewMark(field.id);
+        gameController.playRound(field.id);
       },
       { once: true }
     );
@@ -33,18 +33,26 @@ const screenController = (() => {
   return { updateScreen };
 })();
 
-const gameController = (() => {
-  let round = 1;
-  const addNewMark = (indexOfField) => {
-    let newMark;
-    if (round % 2 === 0) newMark = 'x';
-    else if (round % 2 === 1) newMark = 'o';
+const Player = (mark) => {
+  return { mark };
+};
 
+const gameController = (() => {
+  const playerOne = Player('o');
+  const playerTwo = Player('x');
+  let round = 1;
+
+  const playRound = (indexOfField) => {
+    if (round % 2 === 0) addNewMark(indexOfField, playerTwo.mark);
+    else if (round % 2 === 1) addNewMark(indexOfField, playerOne.mark);
+    round += 1;
+  };
+
+  const addNewMark = (indexOfField, newMark) => {
     if (Gameboard.getFieldValue(indexOfField) === null) {
       Gameboard.setFieldValue(indexOfField, newMark);
     }
     screenController.updateScreen();
-    round += 1;
   };
-  return { addNewMark };
+  return { playRound };
 })();
