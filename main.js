@@ -1,12 +1,15 @@
 const Gameboard = (() => {
-  const gameBoard = [null, null, null, null, null, null, null, null, null];
+  let gameBoard = [null, null, null, null, null, null, null, null, null];
   const getFieldValue = (indexOfField) => {
     return gameBoard[indexOfField];
   };
   const addNewMark = (indexOfField, value) => {
     gameBoard[indexOfField] = value;
   };
-  return { getFieldValue, addNewMark };
+  const clearGameboard = () => {
+    gameBoard = [null, null, null, null, null, null, null, null, null];
+  };
+  return { getFieldValue, addNewMark, clearGameboard };
 })();
 
 const clickHandlerBoard = (() => {
