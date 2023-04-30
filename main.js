@@ -9,7 +9,11 @@ const Gameboard = (() => {
   const clearGameboard = () => {
     gameBoard = [null, null, null, null, null, null, null, null, null];
   };
-  return { getFieldValue, addNewMark, clearGameboard };
+  const isFull = () => {
+    const isNotNull = (value) => value !== null;
+    return gameBoard.every(isNotNull);
+  };
+  return { getFieldValue, addNewMark, clearGameboard, isFull };
 })();
 
 const clickHandler = (() => {
@@ -136,7 +140,7 @@ const gameController = (() => {
       Gameboard.getFieldValue(6) === activePlayer.mark
     ) {
       gameOver(activePlayer.mark);
-    } else if (round >= 10) {
+    } else if (Gameboard.isFull()) {
       gameOver();
     }
   };
