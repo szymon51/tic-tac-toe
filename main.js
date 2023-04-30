@@ -12,18 +12,23 @@ const Gameboard = (() => {
   return { getFieldValue, addNewMark, clearGameboard };
 })();
 
-const clickHandlerBoard = (() => {
-  const fields = document.querySelectorAll('.field');
-  fields.forEach((element) => {
-    const field = element;
-    element.addEventListener(
-      'click',
-      () => {
-        gameController.playRound(field.id);
-      },
-      { once: true }
-    );
-  });
+const clickHandler = (() => {
+  const fieldEventListeners = () => {
+    const fields = document.querySelectorAll('.field');
+    fields.forEach((element) => {
+      const field = element;
+      element.addEventListener(
+        'click',
+        () => {
+          gameController.playRound(field.id);
+        },
+        { once: true }
+      );
+    });
+  };
+  const newGameBtn = document.querySelector('#new-game');
+  newGameBtn.addEventListener('click', () => gameController.newGame());
+  return { fieldEventListeners };
 })();
 
 const screenController = (() => {
@@ -44,6 +49,13 @@ const gameController = (() => {
   const playerOne = Player('o');
   const playerTwo = Player('x');
   let round = 1;
+
+  const newGame = () => {
+    clickHandler.fieldEventListeners();
+    round = 1;
+    Gameboard.clearGameboard();
+    screenController.updateScreen();
+  };
 
   const playRound = (indexOfField) => {
     const activePlayer = round % 2 ? playerOne : playerTwo;
@@ -111,5 +123,5 @@ const gameController = (() => {
       gameOver(activePlayer);
     }
   };
-  return { playRound };
+  return { playRound, newGame };
 })();

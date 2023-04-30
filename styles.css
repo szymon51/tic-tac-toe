@@ -1,7 +1,10 @@
 body {
   display: flex;
   justify-content: center;
+  align-items: center;
   font-family: sans-serif;
+  flex-direction: column;
+  gap: 5px;
 }
 .game-board .field {
   font-size: 100px;
